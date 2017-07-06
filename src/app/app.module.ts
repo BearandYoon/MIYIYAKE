@@ -8,10 +8,14 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
-import { LoginComponent } from './login/login.component';
-import { EmailComponent } from './email/email.component';
-import { SignupComponent } from './signup/signup.component';
-import { MembersComponent } from './members/members.component';
+import { LoginComponent } from './components/login/login.component';
+import { EmailComponent } from './components/email/email.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { MembersComponent } from './components/members/members.component';
+
+import { AuthService } from './services/authService/auth.service';
+
+import { routes } from './app.routes';
 
 @NgModule({
   declarations: [
@@ -27,9 +31,12 @@ import { MembersComponent } from './members/members.component';
     HttpModule,
     AngularFireModule.initializeApp(environment.firebase, 'MIYIYAKE'), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
+    routes
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
