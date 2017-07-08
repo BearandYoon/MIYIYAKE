@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   ) {
     this._authService.getAuthenticationState().subscribe(res => {
       if (res) {
-        this._routerService.navigate(['/dashboard'])
+        this._routerService.navigate(['/members'])
       }});
   }
 

@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { LocalStorageModule } from 'angular-2-local-storage';
+
 import { environment } from '../environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { EmailComponent } from './components/email/email.component';
@@ -32,7 +34,8 @@ import { routes } from './app.routes';
     AngularFireModule.initializeApp(environment.firebase, 'MIYIYAKE'), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    routes
+    routes,
+    LocalStorageModule.withConfig({prefix: '_', storageType: 'localStorage'}), // localstorage setting
   ],
   providers: [
     AuthService
