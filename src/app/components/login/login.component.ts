@@ -12,8 +12,6 @@ import { AuthService } from '../../services/authService/auth.service';
 })
 
 export class LoginComponent implements OnInit {
-  error: any;
-  currentUser: any;
 
   constructor(
     private _authService: AuthService,
@@ -21,14 +19,14 @@ export class LoginComponent implements OnInit {
   ) {
     this._authService.getAuthenticationState().subscribe(res => {
       if (res) {
-        this._routerService.navigate(['/members'])
+        this._routerService.navigate(['/members']);
       }});
   }
 
   ngOnInit() {
   }
 
-  loginGoogle() {
+  loginGoogle(): void {
     this._authService.loginWithGoogle();
   }
 }

@@ -22,6 +22,24 @@ export class AuthService {
     return this.user;
   }
 
+  signUpWithEmail(email, pass) {
+    this.afAuth.auth.createUserWithEmailAndPassword(email, pass)
+      .then(res => {
+        this.saveToken(res);
+      })
+      .catch(error => {
+        // Handle Errors here.
+        const errorCode = error['code'];
+        const errorMessage = error['message'];
+        if (errorCode === 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
+  }
+
   loginWithEmail(email, pass) {
     this.afAuth.auth.signInWithEmailAndPassword(email, pass)
       .then(res => {

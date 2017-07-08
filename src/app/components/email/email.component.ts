@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/authService/auth.service';
+import { UserInfo } from '../../models/user';
 
 @Component({
   selector: 'app-email',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmailComponent implements OnInit {
 
-  constructor() { }
+  user: UserInfo = new UserInfo('test@email.com', 'password');
+
+  constructor(
+    private _authService: AuthService
+  ) { }
 
   ngOnInit() {
   }
 
+  onSubmit(formData): void {
+    if (formData.valid) {
+      this._authService.loginWithEmail(formData.value.email, formData.value.password);
+    }
+  }
 }
