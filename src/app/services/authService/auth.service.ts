@@ -4,11 +4,14 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AuthService {
-
   user: Observable<firebase.User>;
+  private _userSignUpActivity = new Subject<any>();
+
+  userSignUpActivity$ = this._userSignUpActivity.asObservable();
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -32,9 +35,9 @@ export class AuthService {
         const errorCode = error['code'];
         const errorMessage = error['message'];
         if (errorCode === 'auth/weak-password') {
-          alert('The password is too weak.');
+          this._userSignUpActivity.next('weak-password');
         } else {
-          alert(errorMessage);
+          this._userSignUpActivity.next(errorMessage);
         }
         console.log(error);
       });
