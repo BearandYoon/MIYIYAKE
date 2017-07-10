@@ -2,12 +2,18 @@
   <div>
     <h3>Register to MIYIYAKE</h3>
     <p>Create account to see it in action.</p>
+    <div class="alert alert-success alert-dismissable" *ngIf="!isError && message">
+      {{message}}
+    </div>
+    <div class="alert alert-danger alert-dismissable" *ngIf="isError && message">
+      {{message}}
+    </div>
     <form class="m-t" #formData='ngForm' (ngSubmit)="onSubmit(formData)">
       <div class="form-group">
-        <input type="email" class="form-control" (ngModel)="email" placeholder="Email" required="">
+        <input type="text" class="form-control" (ngModel)="email" placeholder="Email" name="email" required>
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" (ngModel)="password" placeholder="Password" required="">
+        <input type="password" class="form-control" (ngModel)="password" placeholder="Password" name="password" required>
       </div>
       <div class="form-group">
         <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>

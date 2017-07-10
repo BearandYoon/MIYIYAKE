@@ -6,10 +6,13 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 
+import { MessageInfo } from 'app/models/message';
+
 @Injectable()
 export class AuthService {
   user: Observable<firebase.User>;
   private _userSignUpActivity = new Subject<any>();
+  signUpMessage: MessageInfo = new MessageInfo(false, '');
 
   userSignUpActivity$ = this._userSignUpActivity.asObservable();
 
@@ -29,17 +32,15 @@ export class AuthService {
     this.afAuth.auth.createUserWithEmailAndPassword(email, pass)
       .then(res => {
         this.saveToken(res);
+        this.signUpMessage.isTrue = true;
+        this.signUpMessage.content = 'Success!';
+        this._userSignUpActivity.next(this.signUpMessage);
       })
       .catch(error => {
         // Handle Errors here.
-        const errorCode = error['code'];
-        const errorMessage = error['message'];
-        if (errorCode === 'auth/weak-password') {
-          this._userSignUpActivity.next('weak-password');
-        } else {
-          this._userSignUpActivity.next(errorMessage);
-        }
-        console.log(error);
+        this.signUpMessage.isTrue = false;
+        this.signUpMessage.content = error;
+        this._userSignUpActivity.next(this.signUpMessage);
       });
   }
 
@@ -67,7 +68,7 @@ export class AuthService {
   logOut() {
     this.localStorageService.remove('USER_INFO');
     this.afAuth.auth.signOut()
-      .then(res => {this.routerService.navigate(['/login'])});
+      .then(res => { this.routerService.navigate(['/login']); });
   }
 
   saveToken(res) {
